@@ -1,0 +1,17 @@
+body {
+    background: forestgreen;
+}
+
+aside {
+    float: left;
+    width: 20%;
+    height: 100vh;
+    border-right: 5px solid #1b1b1b;
+    background: yellow;
+}
+
+form {
+    margin-left: 32%;
+    margin-top: 50px;
+    width: 500px;
+}
