@@ -14,15 +14,23 @@
 <body>
 <div>
     {% for i in book%}
-    <h1 class="navigation">{{i.title}}</h1>
-    <p>{{i.description}}</p>
+            <h1 class="navigation">{{ i.title }}</h1>
+            <p>{{i.description}}</p>
+            <a href="{% url 'book_detail' pk=i.id %}">скачать{{ i.id }}</a>
     {% endfor %}
 
-    <ul>
-        {% for item in navigation_items %}
-            <li><a href="{{ item.url }}">{{ item.title }}</a></li>
-        {% endfor %}
-    </ul>
+
 </div>
 </body>
 </html>
+
+
+
+
+
+
+<!--    <ul>-->
+<!--        {% for item in navigation_items %}-->
+<!--            <li><a href="{{ item.url }}">{{ item.title }}</a></li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
