@@ -5,8 +5,8 @@ class Book(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to="media/")
     author = models.CharField(max_length=100)
-    book_cover = models.ImageField
-    file = models.FileField
+    book_cover = models.ImageField()
+    file = models.FileField()
 
 class Navigation(models.Model):
     title = models.CharField(max_length=255)

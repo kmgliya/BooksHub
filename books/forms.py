@@ -23,11 +23,6 @@ class BookForm(ModelForm):
                 'placeholder': "author"
             }),
 
-            'book_cover': ImageField(attrs={
-                'class': "form-control",
-                'placeholder': "book cover"
-            }),
-
             'file': FileInput(attrs={
                 'class': "form-control",
                 'placeholder': "file"
