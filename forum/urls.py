@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import hello
+from .views import bye
+
 
 
 urlpatterns = [
-    path("", hello),
+    path("", bye),
+
 ]
