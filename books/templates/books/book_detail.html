@@ -1,0 +1,14 @@
+{% include 'header_and_footer/header.html' %}
+<h1>Детальная информация о книге</h1>
+<h2>{{book_id.title}}</h2><br>
+<img src="{{book_id.image.url}}" alt="" style="width: 200px"><br>
+<p>{{book_id.author}}</p><br>
+<p>{{book_id.genres}}</p>
+<!--<ul>-->
+<!--{% for genre in book_id.genres.all %}-->
+<!--  <li>{{ genre }}</li>-->
+<!--{% endfor %}-->
+<!--</ul>-->
+
+<p>{{book_id.description}}</p>
+{% include 'header_and_footer/footer.html' %}

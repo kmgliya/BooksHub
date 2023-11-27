@@ -1,17 +1,12 @@
-from django.shortcuts import render, redirect
-from .models import Navigation, Book
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.views.generic import DetailView, UpdateView
 from .forms import BookForm
 
+
 def hello(request):
     book = Book.objects.all()
-    return render(request, "index.html", {"book":book})
-
-def home(request):
-    navigation_items = Navigation.objects.all()
-    return render(request, 'home.html', {'navigation_items': navigation_items})
+    return render(request, "books/index.html", {"book":book})
 
 
 def create(request):
@@ -34,13 +29,37 @@ def create(request):
     return render(request, "book_create.html", data)
 
 
-class BooksDetailView(DetailView):
-    model = Book
-    template_name = 'book.html'
-    context_object_name = 'book'
+
 
 # class BooksUpdateView(UpdateView):
 #     model = Book
 #     template_name = 'book_create'
+
+
+def book_list_view(request):
+    if request.method == "GET":
+        book_list = Book.objects.all().order_by("rating")[::-1]
+        return render(request, template_name='books/books_slide.html', context={
+            'book_list': book_list,
+        })
+
+
+def book_list_detail_view(request, id):
+    if request.method == 'GET':
+        book_id = get_object_or_404(Book, id=id)
+        return render(request, template_name='books/book_detail.html', context={'book_id': book_id})
+
+
+def test(request):
+    return render(request, 'books/test.html')
+# def carousel_view(request):
+#     images = Book.objects.all()
+#     return render(request, 'carousel.html', {'images': images})
+
+
+
+# def home(request):
+#     navigation_items = Navigation.objects.all()
+#     return render(request, 'home.html', {'navigation_items': navigation_items})
 
 

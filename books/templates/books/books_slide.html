@@ -1,0 +1,23 @@
+{% include 'header_and_footer/header.html' %}
+<div class="container my-5 mt-4">
+  <h2>Добро пожаловать на наш веб-сайт!</h2>
+  <p>Мы рады приветствовать вас и представить наши услуги.</p>
+</div>
+
+<h2 class="mt-4 text-center">Популярные фильмы</h2>
+<!-- templates/carousel.html -->
+
+<ul class="card-ul">
+  {% for book in book_list %}
+    <li class="book-card">
+      <img src="{{book.image.url}}" alt="{{book.title}}" class="scroll-img">
+    <div class="card-title-div">
+      <p>{{book.author}}</p>
+      <p>{{book.rating}}</p>
+    </div>
+    <h5>{{book.title}}</h5>
+    </li>
+  {% endfor %}
+</ul>
+
+{% include 'header_and_footer/footer.html' %}

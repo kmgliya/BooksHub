@@ -6,15 +6,12 @@
 
 {% block main %}
     <h2>User Registration</h2>
+
     <form method="post">
         {% csrf_token %}
-        {{ form.email }}<br>
-        {{ form.password }}<br>
         {{ form.username }}<br>
-        {{ form.first_name }}<br>
-        {{ form.last_name }}<br>
-        {{ form.date_of_birth }}<br>
-        <span>{{ error }}</span>
+        {{ form.email }}<br>
+
         <button class="btn btn-success" type="submit">зарегистрироваться</button>
         <br>
     </form>

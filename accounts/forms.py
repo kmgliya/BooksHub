@@ -1,40 +1,13 @@
-from django.forms import ModelForm, EmailInput, DateTimeInput, TextInput
-from .models import Just_User
+from django.forms import ModelForm, EmailField, BooleanField, RadioSelect, EmailInput, CharField, TextInput
+from .models import JustUser
+from django.core.exceptions import ValidationError
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
 
 
-class JustUserForm(ModelForm):
-    class Meta:
-        model = Just_User
-        fields = ['email', 'password', 'username', 'first_name', 'last_name', 'date_of_birth']
+class JustUserForm(forms.Form):
+    username = forms.CharField(label='Логин',
+                               widget=forms.TextInput(attrs={'class': 'form-input input-area'}))
+    password = forms.CharField(label='Пароль',
+                               widget=forms.PasswordInput(attrs={'class': 'form-input input-area'}))
 
-        widgets = {
-            "email": EmailInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'email'
-            }),
-
-            "password": TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "password"
-            }),
-
-            'username': TextInput(attrs={
-                "class": "form-control",
-                'placeholder': "username"
-            }),
-
-            'first_name': TextInput(attrs={
-                'class': "form-control",
-                'placeholder': "first name"
-            }),
-
-            'last_name': TextInput(attrs={
-                'class': "form-control",
-                'placeholder': "last name"
-            }),
-
-            'date_of_birth': DateTimeInput(attrs={
-                'class': "form-control",
-                "placeholder": "birthday"
-            }),
-        }

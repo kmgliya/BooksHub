@@ -1,9 +1,37 @@
-{% extends "accounts/layout.html" %}
+<!doctype html>
 
-{% block title %}
-    Test
-{% endblock %}
+{% load static %}
 
-{% block main %}
-    <p>работает епта</p>
-{% endblock %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'accounts/css/test.css' %}">
+
+</head>
+<body>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <section class="top-nav">
+    <div>
+      Logo Here
+    </div>
+    <input id="menu-toggle" type="checkbox" />
+    <label class='menu-button-container' for="menu-toggle">
+    <div class='menu-button'></div>
+  </label>
+    <ul class="menu">
+      <li>One</li>
+      <li>Two</li>
+      <li>Three</li>
+      <li>Four</li>
+      <li>Five</li>
+    </ul>
+  </section>
+<h2>Resize window to collapse menu</h2>
+
+</body>
+</html>

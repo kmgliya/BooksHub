@@ -1,0 +1,33 @@
+<!doctype html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'books/css/style.css' %}">
+
+</head>
+<body>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <nav class="top-nav">
+    <div>
+      Logo Here
+    </div>
+    <input id="menu-toggle" type="checkbox" />
+    <label class='menu-button-container' for="menu-toggle">
+    <div class='menu-button'></div>
+  </label>
+    <ul class="menu">
+        <li class="nav-li">test</li>
+        <li class="nav-li">test</li>
+        <li class="nav-li">test</li>
+        <li class="nav-li">test</li>
+        <li class="nav-li"><a href="">Регистрация</a> | <a href="{% url 'users:login' %}">Авторизация</a></li>
+    </ul>
+  </nav>
+
