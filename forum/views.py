@@ -6,3 +6,4 @@ from .models import *
 def bye(request):
     return render(request, "forum.html")
 
+
