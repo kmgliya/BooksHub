@@ -1,32 +1,44 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView, CreateView
 from .forms import BookForm
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def hello(request):
     book = Book.objects.all()
     return render(request, "books/index.html", {"book":book})
 
+class AddBook(LoginRequiredMixin, CreateView):
+    form_class = BookForm
+    template_name = "books/book_create.html"
+    title_page = 'Добавление книги'
+    # login_url = 'home'
 
-def create(request):
-    error = ''
-    if request.method == "POST":
+    def form_valid(self, form):
+        book = form.save(commit=False) #Образуется обьект данных без занесения в БД
+        book.uploaded_by = self.request.user
+        return super().form_valid(form)
 
-        form = BookForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("")
-        else:
-            error = 'Форма неправильно заполненна'
-    else:
-        form = BookForm()
 
-    data = {
-        "form": form,
-        'error': error
-    }
-    return render(request, "book_create.html", data)
+
+# def create(request):
+#     error = ''
+#     if request.method == "POST":
+#
+#         form = BookForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("home")
+#         else:
+#             error = 'Форма неправильно заполненна'
+#     else:
+#         form = BookForm()
+#
+#     data = {
+#         "form": form,
+#         'error': error
+#     }
+#     return render(request, "books/book_create.html", data)
 
 
 

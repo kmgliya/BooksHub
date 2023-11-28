@@ -21,6 +21,17 @@
         <div class="text-center mt-4 name">
             Twitter
         </div>
+
+    <h2>User Registration</h2>
+
+    <form method="post">
+
+        {{ form.username }}<br>
+        {{ form.email }}<br>
+
+        <button class="btn btn-success" type="submit">зарегистрироваться</button>
+        <br>
+    </form>
         <form class="p-3 mt-3" method="post">
             {% csrf_token %}
             <div class="form-field d-flex align-items-center">

@@ -142,6 +142,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 from django.urls import reverse_lazy
 
-LOGIN_REDIRECT_URL = reverse_lazy("accounts:profile")
-
-
+LOGIN_REDIRECT_URL = "accounts:profile"
+LOGOUT_REDIRECT_URL = "home"
+LOGIN_URL = 'accounts:login'

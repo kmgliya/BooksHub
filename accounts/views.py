@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import JustUserForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.views import LoginView
+
+from django.contrib.auth.forms import AuthenticationForm
+
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import *
@@ -14,20 +18,31 @@ def profile_view(request):
 def test(request):
     return render(request, 'accounts/test.html')
 
-def login_user(request):
-    if request.method == "POST":
-        form = JustUserForm()
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(request, username=cd['username'], password=cd['password'])
+class LoginJustUser(LoginView):
+    form_class = JustUserForm
+    template_name = 'registration/login.html'
+    extra_context = {'title': "Авторизация"}
+    # def get_success_url(self):
+    #     return reverse_lazy('home')
 
-            if user and user.is_active:
-                login(request, user)
-                return HttpResponseRedirect(reverse("home"))
-    else:
-        form = JustUserForm()
-    return render(request, 'registration/login.html')
 
-def logout_user(request):
-    return HttpResponse('qwertyu')
+
+# def login_user(request):
+#     if request.method == "POST":
+#         form = JustUserForm(request.POST)
+#         if form.is_valid():
+#             cd = form.cleaned_data
+#             user = authenticate(request, username=cd['username'], password=cd['password'])
+#
+#             if user and user.is_active:
+#                 login(request, user)
+#                 return HttpResponseRedirect(reverse("home"))
+#     else:
+#         form = JustUserForm()
+#     return render(request, 'registration/login.html', {'form': form})
+
+
+# def logout_user(request):
+#     logout(request)
+#     return HttpResponseRedirect('login')
 

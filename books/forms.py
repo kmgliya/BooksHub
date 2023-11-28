@@ -27,4 +27,9 @@ class BookForm(ModelForm):
                 'class': "form-control",
                 'placeholder': "file"
             }),
+
+            'image': FileInput(attrs={
+                'class': "form-control",
+                'placeholder': "Cover of book"
+            }),
         }
