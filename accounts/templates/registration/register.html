@@ -1,53 +1,45 @@
 <!DOCTYPE html>
 {% load static %}
-{% load i18n %}
 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-    <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-    <script href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Sign up test(change after test)</title>
 
-    <title>{% translate 'Login' %}</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <link rel="stylesheet" href="{% static 'registration/login.css' %}">
 </head>
 <body>
-    <div class="wrapper">
-        <div class="logo">
-            <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="">
-        </div>
-        <div class="text-center mt-4 name">
-            Twitter
-        </div>
-
-    <h2>User Registration</h2>
-
-    <form method="post">
-
-        {{ form.username }}<br>
-        {{ form.email }}<br>
-
-        <button class="btn btn-success" type="submit">зарегистрироваться</button>
-        <br>
-    </form>
-        <form class="p-3 mt-3" method="post">
-            {% csrf_token %}
-            <div class="form-field d-flex align-items-center">
-                <span class="far fa-user"></span>
-                <input type="text" name="username" id="userName" placeholder="{% translate 'Email' %}">
-            </div>
-            <div class="form-field d-flex align-items-center">
-                <span class="fas fa-key"></span>
-                <input type="password" name="password" id="pwd" placeholder="{% translate 'Password' %}">
-            </div>
-            {{ form.errors }}
-            <button class="btn mt-3">{% translate 'Login' %}</button>
-        </form>
-        <div class="text-center fs-6">
-            <a href="{% url 'web:password_reset' %}">{% translate 'Forget password?' %}</a> or <a href="{% url 'accounts:register' %}">{% translate 'Sign up' %}</a>
-        </div>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
     </div>
+    <form method="post">
+        {% csrf_token %}
+        <h3>Sign up</h3>
+        <label>Username</label>
+        {{ form.username }}
+
+        <label>Email</label>
+        {{ form.email }}
+
+
+        <label>Password1</label>
+        {{ form.password1 }}
+
+        <label>Password2</label>
+        {{ form.password2 }}
+
+        {{ form.errors }}
+        <a href="{% url 'accounts:login' %}" class="sign">Login</a>
+        <button type="submit">Sign up</button>
+        <p>OR USE</p>
+        <div class="social">
+          <div class="go"><i class="fab fa-google"></i>  Google</div>
+          <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
+        </div>
+    </form>
 </body>
 </html>

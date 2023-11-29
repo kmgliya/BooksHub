@@ -13,6 +13,7 @@ class AddBook(LoginRequiredMixin, CreateView):
     template_name = "books/book_create.html"
     title_page = 'Добавление книги'
     # login_url = 'home'
+    success_url = 'home'
 
     def form_valid(self, form):
         book = form.save(commit=False) #Образуется обьект данных без занесения в БД

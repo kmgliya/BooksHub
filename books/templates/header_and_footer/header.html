@@ -30,7 +30,7 @@
         {% if  user.is_active %}
         <li class="nav-li"><a href="{% url 'accounts:profile' %}">{{user.username}}</a> | <a href="{% url 'accounts:logout' %}">Выход</a></li>
         {% else %}
-        <li class="nav-li"><a href="">Регистрация</a> | <a href="{% url 'accounts:login' %}">Авторизация</a></li>
+        <li class="nav-li"><a href="accounts:register/">Регистрация</a> | <a href="{% url 'accounts:login' %}">Авторизация</a></li>
         {% endif %}
     </ul>
   </nav>

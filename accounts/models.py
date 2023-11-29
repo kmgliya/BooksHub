@@ -1,12 +1,10 @@
 from django.contrib.auth.models import AbstractUser
-# from django.db import models
+from django.db import models
 # from django.utils.translation import gettext as _
 
 
 class JustUser(AbstractUser):
     ...
-
-#     email = models.EmailField(_('email address'), unique=True)
 #
 #     username = models.CharField(
 #         _("username"),

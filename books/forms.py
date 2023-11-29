@@ -23,13 +23,13 @@ class BookForm(ModelForm):
                 'placeholder': "author"
             }),
 
+            'image': FileInput(attrs={
+                'class': "form-control",
+
+            }),
+
             'file': FileInput(attrs={
                 'class': "form-control",
                 'placeholder': "file"
-            }),
-
-            'image': FileInput(attrs={
-                'class': "form-control",
-                'placeholder': "Cover of book"
             }),
         }

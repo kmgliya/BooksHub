@@ -19,12 +19,12 @@
 
     </div>
     <div class="title-total">
-      <div class="title">Ant Collector</div>
+      <div class="title">{{ user.occupation }}</div>
       <h2>{{ user.username }}</h2>
 
-  <div class="desc">Morgan has collected ants since they were six years old and now has many dozen ants but none in their pants.</div>
+  <div class="desc">{{ user.about_yourself }}</div>
   <div class="actions">
-    <button><i class="far fa-heart"></i></button>
+    <button onclick="location.href='{% url 'accounts:logout' %}?next=/accounts/profile'">Logout</button>
     <button><i class="far fa-envelope"></i></button>
     <button><i class="fas fa-user-friends"></i></button>
   </div></div>

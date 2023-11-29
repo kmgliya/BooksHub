@@ -3,8 +3,7 @@
 
 <html lang="en">
 <head>
-  <!-- Design by foolishdeveloper.com -->
-    <title>Glassmorphism login Form Tutorial in html css</title>
+    <title>Login test(change after test)</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -20,15 +19,18 @@
     <form method="post">
         {% csrf_token %}
         <h3>Login</h3>
+        <label>Username</label>
         {{ form.username }}
-        <label for="username">Username</label>
-<!--        <input type="text" name="username" placeholder="Username" id="userName">-->
 
+        <label>Password</label>
         {{ form.password }}
-        <label for="password">Password</label>
-<!--        <input type="password" name="password" placeholder="Password" id="password">-->
+
         {{ form.errors }}
         <button type="submit">Log In</button>
+        <div class="social"><a href="{% url 'accounts:register' %}">sign up</a>
+        <a href="#">Восстановить пароль</a></div>
+
+
         <div class="social">
           <div class="go"><i class="fab fa-google"></i>  Google</div>
           <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
