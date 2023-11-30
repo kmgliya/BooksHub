@@ -5,6 +5,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import PasswordChangeForm
 
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Логин',
@@ -27,3 +28,13 @@ class LoginUserForm(AuthenticationForm):
     class Meta:
         model = get_user_model()
         fields = ['username', 'password']
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label='Пароль',
+                               widget=forms.PasswordInput(attrs={'class': 'form-input input-area'}))
+
+    new_password1 = forms.CharField(label='Пароль',
+                               widget=forms.PasswordInput(attrs={'class': 'form-input input-area'}))
+
+    new_password2 = forms.CharField(label='Пароль',
+                               widget=forms.PasswordInput(attrs={'class': 'form-input input-area'}))

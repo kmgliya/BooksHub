@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import LoginUserForm, RegisterUserForm
+from .forms import LoginUserForm, RegisterUserForm, CustomPasswordChangeForm
 from django.contrib.auth import get_user_model
 
 from django.contrib.auth.decorators import login_required
@@ -26,7 +26,7 @@ class LoginJustUser(LoginView):
     extra_context = {'title': "Авторизация"}
 
     # def get_success_url(self):
-    #     return reverse_lazy('home')
+    #     return reverse_lazy('profile')
 
 
 
@@ -34,10 +34,11 @@ class RegisterView(FormView):
     form_class = RegisterUserForm
     template_name = 'registration/register.html'
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('accounts:login')
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
 
 # def register(request):
 #     return render(request, 'registration/register.html')
@@ -60,4 +61,13 @@ class RegisterView(FormView):
 # def logout_user(request):
 #     logout(request)
 #     return HttpResponseRedirect('accounts:login')
+
+
+class ChangePassword(PasswordChangeView):
+    template_name = 'registration/password_change.html'
+    form_class = CustomPasswordChangeForm
+    extra_context = {'title': "Смена пароля"}
+
+    def get_success_url(self):
+        return reverse_lazy('accounts:profile')
 

@@ -25,7 +25,8 @@
   <div class="desc">{{ user.about_yourself }}</div>
   <div class="actions">
     <button onclick="location.href='{% url 'accounts:logout' %}?next=/accounts/profile'">Logout</button>
-    <button><i class="far fa-envelope"></i></button>
+    <button onclick="location.href='{% url 'accounts:password_change' %}'">Изменить Пароль</button>
+
     <button><i class="fas fa-user-friends"></i></button>
   </div></div>
 
@@ -35,3 +36,4 @@
 
 </body>
 </html>
+
