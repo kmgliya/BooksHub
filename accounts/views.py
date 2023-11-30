@@ -1,16 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import LoginUserForm, RegisterUserForm, CustomPasswordChangeForm
-from django.contrib.auth import get_user_model
 
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate, logout
-
-from django.contrib.auth.forms import AuthenticationForm
-
-from django.urls import reverse_lazy, reverse
-from django.http import HttpResponseRedirect, HttpResponse
-from .models import *
-from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth.views import *
 
 @login_required
