@@ -14,9 +14,14 @@
 <body>
 <div>
     {% for i in book%}
+<<<<<<< HEAD:books/templates/books/index.html
             <h1 class="navigation">{{ i.title }}</h1>
             <p>{{i.description}}</p>
             <a href="{% url 'book_detail' pk=i.id %}">скачать{{ i.id }}</a>
+=======
+    <h1 class="title">{{i.title}}</h1>
+    <p>{{i.description}}</p>
+>>>>>>> d99a50dbd1556e3af7c349723d89d2aaa2375d36:templates/index.html
     {% endfor %}
 
 

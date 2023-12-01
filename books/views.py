@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 from django.shortcuts import render, redirect, get_object_or_404
+=======
+from django.shortcuts import render
+from django.http import HttpResponse
+>>>>>>> d99a50dbd1556e3af7c349723d89d2aaa2375d36
 from .models import *
 from django.views.generic import DetailView, UpdateView, CreateView
 from .forms import BookForm

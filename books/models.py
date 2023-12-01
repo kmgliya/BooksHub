@@ -26,6 +26,7 @@ class Book(models.Model):
     book_cover = models.ImageField()
     file = models.FileField()
 
+<<<<<<< HEAD
 class Navigation(models.Model):
     title = models.CharField(max_length=255)
     url = models.URLField()
@@ -50,3 +51,5 @@ class Navigation(models.Model):
 #
 #     def __str__(self):
 #         return self.title
+=======
+>>>>>>> d99a50dbd1556e3af7c349723d89d2aaa2375d36
