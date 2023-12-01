@@ -4,8 +4,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-     path('admin/', admin.site.urls),
-     path("", include("books.urls")),
-     path('accounts/', include('accounts.urls', namespace='accounts')),
+                  path('admin/', admin.site.urls),
+                  path("", include("books.urls")),
+                  path('forum/', include("forum.urls")),
+
+                  path('accounts/', include('accounts.urls', namespace='accounts')),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
               + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
