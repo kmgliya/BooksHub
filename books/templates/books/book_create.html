@@ -6,7 +6,7 @@
 </head>
 <body>
     <h2>Book Creating</h2>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.title }}<br>
         {{ form.description }}<br>
