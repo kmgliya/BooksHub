@@ -1,0 +1,25 @@
+.book_img {
+    height: 200px;
+    width: 100px;
+}
+
+.book-detail {
+    display: flex;
+
+}
+
+.data_of_book {
+    display: flex;
+    justify-content: space-between;
+}
+
+.book-genres {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    /*display: block;*/
+    background: #4ac1f7;
+    border-radius: 45%;
+    color: red;
+}

@@ -5,7 +5,7 @@ from .models import *
 from django.views.generic import DetailView, UpdateView, CreateView
 from .forms import BookForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.shortcuts import render, get_object_or_404
 def hello(request):
     book = Book.objects.all()
     return render(request, "books/index.html", {"book":book})
@@ -78,3 +78,21 @@ def test(request):
 #     return render(request, 'home.html', {'navigation_items': navigation_items})
 
 
+# Ваше представление для сохранения оценки
+
+
+# def rate_book(request, book_id, user_id):
+#     book = get_object_or_404(Book, id=book_id)
+#     user = get_object_or_404(JustUser, id=user_id)
+#
+#     if request.method == 'POST':
+#         rating = int(request.POST.get('rating', 0))
+#
+#         if not UserBookRating.objects.filter(user=user, book=book).exists():
+#             user_rating = UserBookRating.objects.create(user=user, book=book, rating=rating)
+#             book.total_rating += rating
+#             book.num_ratings += 1
+#             book.save()
+#             book.update_rating()
+#
+#     return render(request, 'books/book_detail.html', {'book': book})

@@ -16,6 +16,9 @@
       <p>{{book.rating}}</p>
     </div>
     <h5>{{book.title}}</h5>
+    <p><!-- Ваш шаблон карты книг -->
+<a href="{% url 'book_detail' book.id %}">Подробнее</a>
+</p>
     </li>
   {% endfor %}
 </ul>

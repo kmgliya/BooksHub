@@ -1,14 +1,28 @@
-{% include 'header_and_footer/header.html' %}
+{% extends 'header_and_footer/header.html' %}
+{% load static %}
+
+{% block additional_css %}
+    <link rel="stylesheet" href="{% static 'books/css/detail_book.css' %}">
+{% endblock %}
+
+{% block title %}{{ book_id.title }}{% endblock %}
+
+{% block content %}
 <h1>Детальная информация о книге</h1>
-<h2>{{book_id.title}}</h2><br>
-<img src="{{book_id.image.url}}" alt="" style="width: 200px"><br>
-<p>{{book_id.author}}</p><br>
-<p>{{book_id.genres}}</p>
-<!--<ul>-->
-<!--{% for genre in book_id.genres.all %}-->
-<!--  <li>{{ genre }}</li>-->
-<!--{% endfor %}-->
-<!--</ul>-->
+<div class="book-detail">
+<img src="{{ book_id.image.url }}" alt="img of {{ book_id.title }}" class="book_img">
+<div class="book-content">
+    <h2 class="book-title">{{book_id.title}}</h2>
+    <div class="data_of_book">
+        <p class="book_author">{{book_id.author}}</p>
+        <p class="book_rating">{{book_id.rating}}</p>
+    </div>
+    {% for genre in book_id.genres.all %}
+    <span class="book-genres" style="color: red">{{ genre.name }}</span>
+    {% if not forloop.last %} {% endif %}
+{% endfor %}
 
 <p>{{book_id.description}}</p>
-{% include 'header_and_footer/footer.html' %}
+</div>
+</div>
+{% endblock %}
