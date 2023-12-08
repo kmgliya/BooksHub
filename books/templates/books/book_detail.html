@@ -10,19 +10,26 @@
 {% block content %}
 <h1>Детальная информация о книге</h1>
 <div class="book-detail">
-<img src="{{ book_id.image.url }}" alt="img of {{ book_id.title }}" class="book_img">
+<img src="{{ book.image.url }}" alt="img of {{ book.title }}" class="book_img">
 <div class="book-content">
-    <h2 class="book-title">{{book_id.title}}</h2>
+    <h2 class="book-title">{{book.title}}</h2>
     <div class="data_of_book">
-        <p class="book_author">{{book_id.author}}</p>
-        <p class="book_rating">{{book_id.rating}}</p>
+        <p class="book_author">{{book.author}}</p>
+        <p class="book_rating">{{book.rating}}</p>
     </div>
-    {% for genre in book_id.genres.all %}
-    <span class="book-genres" style="color: red">{{ genre.name }}</span>
-    {% if not forloop.last %} {% endif %}
-{% endfor %}
 
-<p>{{book_id.description}}</p>
+    <form method="post" action="{% url 'book_detail' book.id %}">
+        {% csrf_token %}
+        {{ rating_form.as_p }}
+        <button type="submit">Submit Rating</button>
+    </form>
+
+
+    {% for genre in book.genres.all %}
+          <span>genre</span>  {% if not forloop.last %} {% endif %}
+    {% endfor %}
+
+<p>{{book.description}}</p>
 </div>
 </div>
 {% endblock %}

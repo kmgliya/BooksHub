@@ -30,3 +30,10 @@ class BookForm(ModelForm):
                 'class': "form-control",
             }),
         }
+
+
+class RatingForm(ModelForm):
+    class Meta:
+        model = Book
+
+        fields = ['rating_field']

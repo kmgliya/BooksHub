@@ -23,9 +23,9 @@
 
     <ul class="menu">
         <li class="nav-li"><a href="#">Forum</a></li>
-        <li class="nav-li"><a href="#">Categoties</a></li>
+        <li class="nav-li"><a href="test">Categoties</a></li>
         <li class="nav-li">test</li>
-        <li class="nav-li">test</li>
+        <li class="nav-li"><a href="create">add book</a></li>
         {% if  user.is_authenticated %}
         <li class="nav-li"><a href="{% url 'accounts:profile' %}">{{user.username}}</a> | <a href="{% url 'accounts:logout' %}">Выход</a></li>
         {% else %}

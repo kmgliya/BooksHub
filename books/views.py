@@ -1,14 +1,17 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+
 from .models import *
 from django.views.generic import DetailView, UpdateView, CreateView
-from .forms import BookForm
+from .forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, get_object_or_404
+
+from django.core.paginator import Paginator
+
+
 def hello(request):
     book = Book.objects.all()
     return render(request, "books/index.html", {"book":book})
+
 
 class AddBook(LoginRequiredMixin, CreateView):
     form_class = BookForm
@@ -21,7 +24,6 @@ class AddBook(LoginRequiredMixin, CreateView):
         book = form.save(commit=False) #Образуется обьект данных без занесения в БД
         book.uploaded_by = self.request.user
         return super().form_valid(form)
-
 
 
 # def create(request):
@@ -44,8 +46,6 @@ class AddBook(LoginRequiredMixin, CreateView):
 #     return render(request, "books/book_create.html", data)
 
 
-
-
 # class BooksUpdateView(UpdateView):
 #     model = Book
 #     template_name = 'book_create'
@@ -59,18 +59,37 @@ def book_list_view(request):
         })
 
 
-def book_list_detail_view(request, id):
-    if request.method == 'GET':
-        book_id = get_object_or_404(Book, id=id)
-        return render(request, template_name='books/book_detail.html', context={'book_id': book_id})
+
+
+def book_detail(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            user_id = 1  # Replace with actual user ID
+            book.rated_by[user_id] = form.cleaned_data['rating_field']
+            book.change_rating()
+            book.save()
+    else:
+        form = RatingForm(initial={'rating_field': book.rating_field})
+
+    return render(request, template_name='books/book_detail.html', context={'book': book, 'rating_form': form})
+
+
+
+
+from django.http import HttpResponse
 
 
 def test(request):
-    return render(request, 'books/test.html')
+    pass
+
+
+
 # def carousel_view(request):
 #     images = Book.objects.all()
 #     return render(request, 'carousel.html', {'images': images})
-
 
 
 # def home(request):
@@ -96,3 +115,7 @@ def test(request):
 #             book.update_rating()
 #
 #     return render(request, 'books/book_detail.html', {'book': book})
+
+
+def category(request, ):
+    return HttpResponse()
