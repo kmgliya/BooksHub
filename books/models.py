@@ -1,9 +1,5 @@
-import random
 from django.contrib.auth import get_user_model
 from django.db import models
-from accounts.models import JustUser
-from django.core.exceptions import ValidationError
-
 
 
 class Genre(models.Model):
@@ -12,13 +8,6 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
-RATINGS = [
-    (1, "    *    "),
-    (2, "   * *   "),
-    (3, "  * * *  "),
-    (4, " * * * * "),
-    (5, "* * * * *")
-]
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
@@ -30,11 +19,5 @@ class Book(models.Model):
     uploaded_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='books', null=True, default=None)
 
     rating = models.FloatField(default=0)
-    rating_field = models.IntegerField(choices=RATINGS, null=True)
-    rated_by = models.JSONField(default=dict)  # Use a JSONField for the dictionary
-
-    def change_rating(self):
-        if self.rated_by:
-            self.rating = round(sum(self.rated_by.values()) / len(self.rated_by), 1)
-
+    rated_by = {}
 

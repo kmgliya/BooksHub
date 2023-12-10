@@ -4,6 +4,7 @@ from .models import *
 from django.views.generic import DetailView, UpdateView, CreateView
 from .forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from django.core.paginator import Paginator
 
@@ -63,20 +64,36 @@ def book_list_view(request):
 
 def book_detail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
+    return render(request, template_name='books/book_detail.html', context={'book': book})
 
+@login_required
+def update_rating(request, book_id, rating_value):
+    book = get_object_or_404(Book, id=book_id)
     if request.method == 'POST':
-        form = RatingForm(request.POST)
-        if form.is_valid():
-            user_id = 1  # Replace with actual user ID
-            book.rated_by[user_id] = form.cleaned_data['rating_field']
-            book.change_rating()
+            user_id = request.user.id
+            book.rated_by[user_id] = int(rating_value)
+            book.rating = round(sum(book.rated_by.values())/len(book.rated_by), 2)
             book.save()
+
+    return render(request, template_name='books/book_detail.html', context={'book': book})
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+@login_required
+def toggle_favorite(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    user = request.user
+
+    if book in user.favorites.all():
+        user.favorites.remove(book)
     else:
-        form = RatingForm(initial={'rating_field': book.rating_field})
+        user.favorites.add(book)
 
-    return render(request, template_name='books/book_detail.html', context={'book': book, 'rating_form': form})
-
-
+    return HttpResponseRedirect(reverse('book_detail', args=[str(book.id)]))
 
 
 from django.http import HttpResponse

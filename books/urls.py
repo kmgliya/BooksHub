@@ -12,6 +12,8 @@ urlpatterns = [
     path('book_list/<int:book_id>/', book_detail, name='book_detail'),
     # path("book_list/<int:id>/", rate_book),
     path('test/', test, name='name'),
+    path('update_rating/<int:book_id>/<int:rating_value>/', update_rating, name='update_rating'),
+    path('toggle_favorite/<int:book_id>/', toggle_favorite, name='toggle_favorite'),
 ]
 
 

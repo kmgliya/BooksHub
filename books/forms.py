@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Textarea, TextInput, ImageField, FileInput
 from .models import Book
-
+from django import forms
 
 class BookForm(ModelForm):
     class Meta:
@@ -32,8 +32,5 @@ class BookForm(ModelForm):
         }
 
 
-class RatingForm(ModelForm):
-    class Meta:
-        model = Book
-
-        fields = ['rating_field']
+class FavoriteBookForm(forms.Form):
+    favorite = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'onchange': 'this.form.submit();'}))
