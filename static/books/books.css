@@ -1,0 +1,27 @@
+body{
+background-color:#381A42;
+}
+
+.books-column{
+background-color:#FFE4E1;
+margin-left40px;
+}
+.books{
+    width: 300px;
+    margin-left:170px;
+    background-color: #FFF0F5;
+    display: flex;
+    justify-content: center;
+
+
+}
+.sections{
+display: flex;
+}
+.column-merge{
+display:flex;
+}
+.rating{
+margin-left: 20px;
+}
+

@@ -6,3 +6,6 @@ def hello(request):
     book = Book.objects.all()
     return render(request, "index.html", {"book":book})
 
+def books(request):
+    return render(request, "books.html")
+
