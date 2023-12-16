@@ -1,26 +1,41 @@
-{% include 'header_and_footer/header.html' %}
-<div class="container my-5 mt-4">
-  <h2>Добро пожаловать на наш веб-сайт!</h2>
-  <p>Мы рады приветствовать вас и представить наши услуги.</p>
-</div>
+{% extends 'header_and_footer/header.html' %}
+{% load static %}
 
-<h2 class="mt-4 text-center">Популярные фильмы</h2>
-<!-- templates/carousel.html -->
+{% block additional_css %}
+    <link rel="stylesheet" href="{% static 'books/css/carousel.css' %}">
+{% endblock %}
 
-<ul class="card-ul">
-  {% for book in book_list %}
-    <li class="book-card">
-      <img src="{{book.image.url}}" alt="{{book.title}}" class="scroll-img">
-    <div class="card-title-div">
-      <p>{{book.author}}</p>
-      <p>{{book.rating}}</p>
-    </div>
-    <h5>{{book.title}}</h5>
-    <p><!-- Ваш шаблон карты книг -->
-<a href="{% url 'book_detail' book.id %}">Подробнее</a>
-</p>
-    </li>
-  {% endfor %}
-</ul>
+{% block title %}Main Page{% endblock %}
 
-{% include 'header_and_footer/footer.html' %}
+
+{% block content %}
+<div class="background"></div>
+    <div class="background-texture"></div>
+
+    <section class="carousel">
+      <h2 class="categories__title">Топ 10 по рейтингу</h2>
+      <div class="carousel__container">
+        {% for book in books_rating %}
+          <div class="carousel-item">
+              <img
+                class="carousel-item__img"
+                src="{{ book.image.url }}"
+                alt="img of {{ book.title }}"
+              />
+
+            <div class="carousel-item__details">
+              <div class="controls">
+                <span class="fas fa-play-circle">{{book.rating}}</span>
+                <span class="fas fa-plus-circle"></span>
+              </div>
+              <a href="{% url 'book_detail' book.id %}">
+                <h5 class="carousel-item__details--title">{{book.title}}</h5>
+              </a>
+              <h6 class="carousel-item__details--subtitle">{{book.author}}</h6>
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+    </section>
+{% endblock %}

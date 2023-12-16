@@ -18,13 +18,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
   <nav class="top-nav">
     <div>
-      Logo Here
+      <a href="{% url 'home' %}">Logo Here</a>
     </div>
 
     <ul class="menu">
-        <li class="nav-li"><a href="#">Forum</a></li>
-        <li class="nav-li"><a href="test">Categoties</a></li>
-        <li class="nav-li">test</li>
+        <li class="nav-li"><a href="category">Category</a></li>
+        <li class="nav-li"><a href="About_us">About us</a></li>
+        <li class="nav-li"><a href="{% url 'favorites' %}">favorites</a></li>
         <li class="nav-li"><a href="create">add book</a></li>
         {% if  user.is_authenticated %}
         <li class="nav-li"><a href="{% url 'accounts:profile' %}">{{user.username}}</a> | <a href="{% url 'accounts:logout' %}">Выход</a></li>

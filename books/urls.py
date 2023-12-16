@@ -8,12 +8,12 @@ from .views import *
 urlpatterns = [
     path("create/", AddBook.as_view(), name='create'),
     path('', book_list_view, name='home'),
-    # path("<int:pk>/update", BooksUpdateView.as_view(), name='book_update')
     path('book_list/<int:book_id>/', book_detail, name='book_detail'),
-    # path("book_list/<int:id>/", rate_book),
-    path('test/', test, name='name'),
     path('update_rating/<int:book_id>/<int:rating_value>/', update_rating, name='update_rating'),
-    path('toggle_favorite/<int:book_id>/', toggle_favorite, name='toggle_favorite'),
+    path('toggle_marked/<int:book_id>/', favorites_button, name='toggle_marked'),
+    path('favorites/', favorites, name='favorites'),
+    path('category/', category, name='category'),
+    path('About_us/', about, name='About_us'),
+    path('filtration/', filtration, name='filtration')
+
 ]
-
-

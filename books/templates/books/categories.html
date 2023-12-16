@@ -7,12 +7,12 @@
 
 {% block content %}
 <div class="filtration">
-    <form method="post" action="{% url 'category' %}">
+    <form method="post" action="{% url 'filtration' %}">
     {% csrf_token %}
     <ul class="ul-cat-link">
         {% for genre in genres %}
         <li>
-            <input type="checkbox" name="genres" value="{{ genre.id }}" {% if genre.id in selected_genres %}checked{% endif %}>
+            <input type="checkbox" name="genres" value="{{ genre.name }}" {% if genre.id in selected_genres %}checked{% endif %}>
             {{ genre.name }}
         </li>
         {% endfor %}

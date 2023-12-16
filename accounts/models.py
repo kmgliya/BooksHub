@@ -3,8 +3,7 @@ from django.db import models
 
 
 class JustUser(AbstractUser):
-    favorites = models.ManyToManyField('books.Book', related_name='favorited_by', blank=True)
-
+    ...
     def __str__(self):
         return self.username
 

@@ -21,3 +21,8 @@ class Book(models.Model):
     rating = models.FloatField(default=0)
     rated_by = {}
 
+    marked_book = models.ManyToManyField(get_user_model())
+
+    def __str__(self):
+        return self.title
+

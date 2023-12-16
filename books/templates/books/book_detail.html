@@ -18,11 +18,11 @@
     <p class="book_author">{{book.author}}</p>
     <a href="#target-content" id="button">{{book.rating}}</a>
 
-    <form method="post" action="{% url 'toggle_favorite' book.id %}">
+    <form method="post" action="{% url 'toggle_marked' book.id %}">
       {% csrf_token %}
-      <input type="checkbox" name="favorite" id="favorite" {% if book in user.favorites.all %}checked{% endif %} onchange="this.form.submit()">
-      <label for="favorite">Добавить в избранное</label>
+      <button type="submit">{% if user in marked_book %}удалить из избранных{% else %}добавить в избранные{% endif %} %}</button>
     </form>
+
   </div>
 
 <!--всплывающее окно при оценке книги-->
@@ -56,7 +56,7 @@
 
 
     {% for genre in book.genres.all %}
-          <span>genre</span>  {% if not forloop.last %} {% endif %}
+          <span>{{genre}}</span>  {% if not forloop.last %} {% endif %}
     {% endfor %}
 
 <p>{{book.description}}</p>

@@ -1,0 +1,33 @@
+{% extends 'header_and_footer/header.html' %}
+{% load static %}
+
+{% block additional_css %}
+	<link rel="stylesheet" href="{% static 'books/css/test.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="grid-container">
+
+  {% for book in books %}
+  <div class = "card">
+    <img src="{{ book.image.url }}" alt="img of {{ book.title }}">
+    <div class="card-content">
+      <h2>
+        {{ book.title }}
+      </h2>
+      <р3>{{ book.author }}</р3>
+      <p>{{book.rating}}</p>
+
+      <p>
+        {{book.description}}
+      </p>
+      <a href="{% url 'book_detail' book.id %}" class="button">
+        Подробнее
+      </a>
+    </div>
+  </div>
+  About_us
+    {% endfor %}
+</div>
+{% endblock %}
