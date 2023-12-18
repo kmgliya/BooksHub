@@ -1,0 +1,25 @@
+{% extends 'header_and_footer/header.html' %}
+{% load static %}
+
+{% block additional_css %}
+    <link rel="stylesheet" href="{% static 'books/css/categories.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="filtration">
+    <form method="post" action="{% url 'category' %}">
+    {% csrf_token %}
+    <ul class="ul-cat-link">
+        {% for genre in genres %}
+        <li>
+            <input type="checkbox" name="genres" value="{{ genre.id }}" {% if genre.id in selected_genres %}checked{% endif %}>
+            {{ genre.name }}
+        </li>
+        {% endfor %}
+    </ul>
+    <button type="submit">Отправить</button>
+</form>
+    </div>
+{% endblock %}
+
+<!--SELECT * FROM genres WHERE name =-->

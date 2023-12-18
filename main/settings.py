@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "books",
     "accounts",
+    "axes",
 
 ]
 
@@ -53,6 +54,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware',
+    'accounts.middleware.AxesLoginRedirectMiddleware',
+
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -89,6 +93,11 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+
+AUTHENTICATION_BACKENDS = [
+   'axes.backends.AxesBackend', # Axes must be first
+   'django.contrib.auth.backends.ModelBackend',
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -140,8 +149,32 @@ AUTH_USER_MODEL = 'accounts.JustUser'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-from django.urls import reverse_lazy
 
 LOGIN_REDIRECT_URL = "accounts:profile"
 LOGOUT_REDIRECT_URL = "accounts:login"
 LOGIN_URL = 'accounts:login'
+
+# блокировка пользователя
+AXES_FAILURE_LIMIT = 5  # Количество неудачных попыток
+AXES_COOLOFF_TIME = 1 / 60  # Время блокировки в часах
+AXES_LOCKOUT_TEMPLATE = 'registration/lockout.html'  # Путь к вашему шаблону блокировки
+AXES_FAILURE_LIMIT: 3
+AXES_RESET_ON_SUCCESS = True
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+# отправка сообщения подтверждения
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '9afd4feda997c1'
+EMAIL_HOST_PASSWORD = '338241df95fa59'
+EMAIL_PORT = '2525'
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760 #10MB

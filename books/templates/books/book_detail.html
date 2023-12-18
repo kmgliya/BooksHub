@@ -1,14 +1,65 @@
-{% include 'header_and_footer/header.html' %}
-<h1>Детальная информация о книге</h1>
-<h2>{{book_id.title}}</h2><br>
-<img src="{{book_id.image.url}}" alt="" style="width: 200px"><br>
-<p>{{book_id.author}}</p><br>
-<p>{{book_id.genres}}</p>
-<!--<ul>-->
-<!--{% for genre in book_id.genres.all %}-->
-<!--  <li>{{ genre }}</li>-->
-<!--{% endfor %}-->
-<!--</ul>-->
+{% extends 'header_and_footer/header.html' %}
+{% load static %}
 
-<p>{{book_id.description}}</p>
-{% include 'header_and_footer/footer.html' %}
+{% block additional_css %}
+    <link rel="stylesheet" href="{% static 'books/css/detail_book.css' %}">
+    <script src="{% static 'js/book_detail.js' %}"></script>
+{% endblock %}
+
+{% block title %}{{ book_id.title }}{% endblock %}
+
+{% block content %}
+<h1>Детальная информация о книге</h1>
+<div class="book-detail">
+<img src="{{ book.image.url }}" alt="img of {{ book.title }}" class="book_img">
+<div class="book-content">
+  <h2 class="book-title">{{book.title}}</h2>
+  <div class="data_of_book">
+    <p class="book_author">{{book.author}}</p>
+    <a href="#target-content" id="button">{{book.rating}}</a>
+
+    <form method="post" action="{% url 'toggle_favorite' book.id %}">
+      {% csrf_token %}
+      <input type="checkbox" name="favorite" id="favorite" {% if book in user.favorites.all %}checked{% endif %} onchange="this.form.submit()">
+      <label for="favorite">Добавить в избранное</label>
+    </form>
+  </div>
+
+<!--всплывающее окно при оценке книги-->
+  <div id="target-content">
+    <div id="target-inner">
+        <form method="post" action="{% url 'update_rating' book.id 1 %}">
+          {% csrf_token %}
+          <button type="submit">1 Звезда</button>
+        </form>
+        <form method="post" action="{% url 'update_rating' book.id 2 %}">
+          {% csrf_token %}
+          <button type="submit">2 Звезды</button>
+        </form>
+        <form method="post" action="{% url 'update_rating' book.id 3 %}">
+          {% csrf_token %}
+          <button type="submit">3 Звезды</button>
+        </form>
+        <form method="post" action="{% url 'update_rating' book.id 4 %}">
+          {% csrf_token %}
+          <button type="submit">4 Звезды</button>
+        </form>
+        <form method="post" action="{% url 'update_rating' book.id 5 %}">
+          {% csrf_token %}
+          <button type="submit">5 Звезд</button>
+        </form>
+  </div>
+</div>
+<!--конец всплывающего окна-->
+
+
+
+
+    {% for genre in book.genres.all %}
+          <span>genre</span>  {% if not forloop.last %} {% endif %}
+    {% endfor %}
+
+<p>{{book.description}}</p>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+.filtration {
+    float: left;
+    background: red;
+}
+
+.ul-cat-link {
+    list-style-type: none;
+}
+
+.cat-filt {
+    text-decoration: none;
+}

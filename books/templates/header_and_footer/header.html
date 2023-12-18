@@ -7,8 +7,10 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
     <link rel="stylesheet" href="{% static 'books/css/style.css' %}">
+    {% block additional_css %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+
 
 </head>
 <body>
@@ -18,16 +20,13 @@
     <div>
       Logo Here
     </div>
-    <input id="menu-toggle" type="checkbox" />
-    <label class='menu-button-container' for="menu-toggle">
-    <div class='menu-button'></div>
-  </label>
+
     <ul class="menu">
+        <li class="nav-li"><a href="#">Forum</a></li>
+        <li class="nav-li"><a href="test">Categoties</a></li>
         <li class="nav-li">test</li>
-        <li class="nav-li">test</li>
-        <li class="nav-li">test</li>
-        <li class="nav-li">test</li>
-        {% if  user.is_active %}
+        <li class="nav-li"><a href="create">add book</a></li>
+        {% if  user.is_authenticated %}
         <li class="nav-li"><a href="{% url 'accounts:profile' %}">{{user.username}}</a> | <a href="{% url 'accounts:logout' %}">Выход</a></li>
         {% else %}
         <li class="nav-li"><a href="{% url 'accounts:register' %}">Регистрация</a> | <a href="{% url 'accounts:login' %}">Авторизация</a></li>
@@ -35,3 +34,10 @@
     </ul>
   </nav>
 
+    {% block content %}
+
+    {% endblock %}
+
+
+</body>
+</html>

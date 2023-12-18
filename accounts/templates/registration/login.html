@@ -28,7 +28,8 @@
         {{ form.errors }}
         <button type="submit">Log In</button>
         <div class="social"><a href="{% url 'accounts:register' %}">sign up</a>
-        <a href="#">Восстановить пароль</a></div>
+            <p><a href="{% url 'accounts:password_reset' %}">Забыли пароль?</a></p>
+            <a href="{% url 'accounts:password_reset_confirm' uidb64='some_value' token='some_value' %}">Забыли пароль?</a>
 
 
         <div class="social">

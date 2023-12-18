@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Textarea, TextInput, ImageField, FileInput
 from .models import Book
-
+from django import forms
 
 class BookForm(ModelForm):
     class Meta:
@@ -23,16 +23,14 @@ class BookForm(ModelForm):
                 'placeholder': "author"
             }),
 
-<<<<<<< HEAD
             'image': FileInput(attrs={
                 'class': "form-control",
-
             }),
-
-=======
->>>>>>> f9cdd619fec9a166dc16e314287ab7d4cb869dc9
-            'file': FileInput(attrs={
+            "file": FileInput(attrs={
                 'class': "form-control",
-                'placeholder': "file"
             }),
         }
+
+
+class FavoriteBookForm(forms.Form):
+    favorite = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'onchange': 'this.form.submit();'}))
