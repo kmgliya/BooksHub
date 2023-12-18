@@ -6,23 +6,27 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>BookHub</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'index/style.css' %}">
+    <title>
+        {% block title %} {% endblock %}
+    </title>
+    <link rel="stylesheet" type="text/css" href="{% static 'forum/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'books/books.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'index/style.css' %}">
 
 </head>
 <body>
-<div>
-    {% for i in book%}
-    <h1 class="title">{{i.title}}</h1>
-    <p>{{i.description}}</p>
-    {% endfor %}
-
-    <ul>
-        {% for item in navigation_items %}
-            <li><a href="{{ item.url }}">{{ item.title }}</a></li>
-        {% endfor %}
+<div class="header">
+    <div class="header-logo">
+    <img class="logo" src="https://th.bing.com/th/id/R.90ca3ce59b101e308af8a110f404d598?rik=NELVWiEEXhuZTQ&pid=ImgRaw&r=0" alt="">
+    </div>
+    <ul class="navigation">
+        <li>Регистрация</li>
+        <li>Форум</li>
+        <li>Авторизация</li>
+        <li>О нас</li>
     </ul>
+    <input type="Search" placeholder="Search">
 </div>
+{% block main %} {% endblock %}
 </body>
 </html>
