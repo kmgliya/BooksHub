@@ -131,9 +131,10 @@ def about(request):
 
 # CATEEEGOOOOOOOOOORIIIIEEEEEEEEEEESSSSSSSS cat
 def category(request):
+    books = Book.objects.all()
     genres = Genre.objects.all()
 
-    return render(request, 'books/categories.html', {'genres':genres})
+    return render(request, 'books/categories.html', {'genres':genres, "books":books})
 
 
 def filtration(request):

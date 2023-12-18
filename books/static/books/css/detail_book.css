@@ -5,9 +5,7 @@
 
 .book-detail {
     display: flex;
-
 }
-
 
 .book-genres {
     padding-bottom: 5px;
@@ -108,5 +106,4 @@ body {
     width: 700px !important;
     gap: 20px;
     margin: 20px;
-
 }
