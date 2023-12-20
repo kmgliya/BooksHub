@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block additional_css %}
-	<link rel="stylesheet" href="{% static 'books/css/categories.css' %}">
+	<link rel="stylesheet" href="{% static 'books/css/category.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -12,7 +12,7 @@
     <ul class="ul-cat-link">
         {% for genre in genres %}
         <li>
-            <input type="checkbox" name="genres" value="{{ genre.name }}" {% if genre.id in selected_genres %}checked{% endif %}>
+            <input type="checkbox" name="genres" value="{{ genre.name }}" {% if genre.name in genres_names %}checked{% endif %}>
             {{ genre.name }}
         </li>
         {% endfor %}
@@ -25,18 +25,18 @@
             <article class="card">
   <img
     class="card__background"
-    src="https://i.imgur.com/QYWAcXk.jpeg"
-    alt="Photo of Cartagena's cathedral at the background and some colonial style houses"
+    src="{{ book.image.url }}"
+    alt="Photo of {{ book.title }}"
     width="1920"
     height="2193"
   />
   <div class="card__content | flow">
     <div class="card__content--container | flow">
-      <h2 class="card__title">Colombia</h2>
-      <p class="card__description">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum in
-        labore laudantium deserunt fugiat numquam.
-      </p>
+      <h2 class="card__title">{{ book.title }}</h2>
+        <br>
+        {% for book_genre in book.genres.all %}
+          <span style="color: #e5e5e5">{{ book_genre }}</span>  {% if not forloop.last %} {% endif %}
+    {% endfor %}
     </div>
     <button class="card__button">Read more</button>
   </div>

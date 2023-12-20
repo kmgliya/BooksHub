@@ -53,8 +53,6 @@
 <!--конец всплывающего окна-->
 
 
-
-
     {% for genre in book.genres.all %}
           <span>{{genre}}</span>  {% if not forloop.last %} {% endif %}
     {% endfor %}

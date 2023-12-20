@@ -12,7 +12,6 @@ urlpatterns = [
     path('update_rating/<int:book_id>/<int:rating_value>/', update_rating, name='update_rating'),
     path('toggle_marked/<int:book_id>/', favorites_button, name='toggle_marked'),
     path('favorites/', favorites, name='favorites'),
-    path('category/', category, name='category'),
     path('About_us/', about, name='About_us'),
     path('filtration/', filtration, name='filtration')
 

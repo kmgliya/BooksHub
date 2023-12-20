@@ -130,19 +130,19 @@ def about(request):
 
 
 # CATEEEGOOOOOOOOOORIIIIEEEEEEEEEEESSSSSSSS cat
-def category(request):
-    books = Book.objects.all()
-    genres = Genre.objects.all()
-
-    return render(request, 'books/categories.html', {'genres':genres, "books":books})
-
 
 def filtration(request):
+    genres = Genre.objects.all()
+    books = Book.objects.all()
+    genres_names = []
     if request.method == "POST":
-        genres_names = list(request.POST.getlist("genres"))
-        for genre_name in genres_names:
-            genre = get_object_or_404(Genre, name=genre_name)
-            books_with_genre = genre.book_set.all()
-            print(books_with_genre)
+        if "genres" in request.POST:
+            genres_names = list(request.POST.getlist("genres"))
+            print(genres_names)
+            books = set([])
+            for genre_name in genres_names:
+                genre = get_object_or_404(Genre, name=genre_name)
+                books_with_genre = genre.book_set.all()
+                books.update(books_with_genre)
 
-        return redirect('category')
+    return render(request, 'books/category.html', {'genres': genres, "books": books, "genres_names": genres_names})
