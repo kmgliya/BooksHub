@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block additional_css %}
-    <link rel="stylesheet" href="{% static 'books/css/detail_book.css' %}">
+    <link rel="stylesheet" href="{% static 'books/css/detail_books1.css' %}">
     <script src="{% static 'js/book_detail.js' %}"></script>
 {% endblock %}
 
@@ -60,4 +60,58 @@
 <p>{{book.description}}</p>
 </div>
 </div>
+
+{% if comments %}
+<ul class="comments">
+{% for comment in comments %}
+    <li class="comment">
+    <p class="name_date">Оставил(а) {{ comment.user.username }} в {{ comment.created_at }}</p>
+    <p>{{ comment.content }}</p>
+    <ul>
+    {% for reply in comment.replies.all %}
+        <li class="comment">
+            <p class="name_date">Ответил(а) <strong>{{ reply.user.username }}</strong> в <bold>{{ reply.created_at }}</bold></p>
+            <p>{{ reply.content }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+    <a href="#invisibleForm{{comment.id}}" class="show-reply-form" data-comment-id="{{ comment.id }}">Reply</a>
+
+    <form id="invisibleForm{{comment.id}}" class="reply-form" action="{% url 'reply_comment' parent_id=comment.id book_id=book.id %}">
+    {% csrf_token %}
+    {{ comment_form.content }}
+    {{ comment_form.is_spoiler }}
+    <input type="submit" value="Submit">
+</form>
+    </li>
+
+{% endfor %}
+</ul>
+{% endif %}
+
+<!-- Form for adding new comments -->
+<form method="post" action="{% url 'add_comment' book_id=book.id %}">
+  {% csrf_token %}
+  {{ comment_form.content }}
+  {{ comment_form.is_spoiler }}
+  <input type="submit" value="Add coomment">
+</form>
+
+
+
+    <!-- Add this script to the end of your book_detail.html -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var showButtons = document.querySelectorAll('.show-reply-form');
+    showButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            var commentId = this.getAttribute('data-comment-id');
+            var form = document.getElementById('invisibleForm' + commentId);
+            form.style.display = (form.style.display === 'block') ? 'none' : 'block';
+        });
+    });
+});
+</script>
+
 {% endblock %}

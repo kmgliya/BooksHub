@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 
+
 class Genre(models.Model):
     name = models.CharField(max_length=100)
 
@@ -12,7 +13,7 @@ class Genre(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    genres = models.ManyToManyField(Genre)  # Используем ManyToManyField для поддержки нескольких жанров
+    genres = models.ManyToManyField(Genre)
     image = models.ImageField(upload_to='', verbose_name='Добавьте фото', null=True, blank=True)
     author = models.CharField(max_length=100, null=True, blank=True)
     file = models.FileField(upload_to='static/file', null=True, blank=True)

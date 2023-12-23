@@ -4,8 +4,8 @@ body {
   margin: 0;
   height: 100vh;
   display: grid;
-  align-items: center;
-  justify-items: center;
+  /*align-items: center;*/
+  /*justify-items: center;*/
   background-image: linear-gradient(to top, #96fbc4 0%, #f9f586 100%);
 }
 .card {

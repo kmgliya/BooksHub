@@ -30,29 +30,6 @@ class RegisterView(FormView):
         return super().form_valid(form)
 
 
-# def register(request):
-#     return render(request, 'registration/register.html')
-
-# def login_user(request):
-#     if request.method == "POST":
-#         form = JustUserForm(request.POST)
-#         if form.is_valid():
-#             cd = form.cleaned_data
-#             user = authenticate(request, username=cd['username'], password=cd['password'])
-#
-#             if user and user.is_active:
-#                 login(request, user)
-#                 return HttpResponseRedirect(reverse("home"))
-#     else:
-#         form = JustUserForm()
-#     return render(request, 'registration/login.html', {'form': form})
-
-
-# def logout_user(request):
-#     logout(request)
-#     return HttpResponseRedirect('accounts:login')
-
-
 class ChangePassword(PasswordChangeView):
     template_name = 'registration/password_change.html'
     form_class = CustomPasswordChangeForm

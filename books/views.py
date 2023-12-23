@@ -7,7 +7,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 
+from comments.models import Comment
+from comments.forms import CommentForm
 
 def hello(request):
     book = Book.objects.all()
@@ -18,11 +21,11 @@ class AddBook(LoginRequiredMixin, CreateView):
     form_class = BookForm
     template_name = "books/book_create.html"
     title_page = 'Добавление книги'
-    # login_url = 'home'
+    login_url = '/accounts/login/'
     success_url = 'home'
 
     def form_valid(self, form):
-        book = form.save(commit=False) #Образуется обьект данных без занесения в БД
+        book = form.save(commit=False)
         book.uploaded_by = self.request.user
         return super().form_valid(form)
 
@@ -64,18 +67,31 @@ def book_list_view(request):
 
 def book_detail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
-    return render(request, template_name='books/book_detail.html', context={'book': book, "marked_book": book.marked_book.all()})
+    comments = Comment.objects.filter(book=book, parent_comment=None)
+    comment_form = CommentForm()
+
+    return render(request, template_name='books/book_detail.html', context={'book': book, "marked_book": book.marked_book.all(), 'comments': comments, 'comment_form': comment_form})
+
+
 
 @login_required
 def update_rating(request, book_id, rating_value):
     book = get_object_or_404(Book, id=book_id)
+    comments = book.comments.all()
+
     if request.method == 'POST':
             user_id = request.user.id
-            book.rated_by[user_id] = int(rating_value)
+            rated_by = book.rated_by
+            rated_by[user_id] = int(rating_value)
+
+            book.rated_by = rated_by
             book.rating = round(sum(book.rated_by.values())/len(book.rated_by), 2)
             book.save()
 
-    return render(request, template_name='books/book_detail.html', context={'book': book})
+    return render(request, template_name='books/book_detail.html', context={'book': book, "marked_book": book.marked_book.all(), 'comments': comments})
+
+
+
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
@@ -105,6 +121,7 @@ from django.urls import reverse
 
 def favorites_button(request, book_id):
     book = get_object_or_404(Book, id=book_id)
+    comments = book.comments.all()
     user = request.user
     if user in book.marked_book.all():
         book.marked_book.remove(user)
@@ -112,7 +129,8 @@ def favorites_button(request, book_id):
         book.marked_book.add(user)
     book.save()
 
-    return render(request, 'books/book_detail.html', {'book': book, "marked_book": book.marked_book.all()})
+    return render(request, template_name='books/book_detail.html', context={'book': book, "marked_book": book.marked_book.all(), 'comments': comments})
+
 
 
 @login_required

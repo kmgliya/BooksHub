@@ -8,7 +8,9 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{% static 'books/css/style.css' %}">
-    {% block additional_css %}{% endblock %}
+    {% block additional_css %}
+
+    {% endblock %}
     <title>{% block title %}{% endblock %}</title>
 
 
@@ -23,9 +25,9 @@
 
     <ul class="menu">
         <li class="nav-li"><a href="{% url 'filtration' %}">Category</a></li>
-        <li class="nav-li"><a href="About_us">About us</a></li>
+        <li class="nav-li"><a href="{% url 'About_us' %}">About us</a></li>
         <li class="nav-li"><a href="{% url 'favorites' %}">favorites</a></li>
-        <li class="nav-li"><a href="create">add book</a></li>
+        <li class="nav-li"><a href="{% url 'create' %}">add book</a></li>
         {% if  user.is_authenticated %}
         <li class="nav-li"><a href="{% url 'accounts:profile' %}">{{user.username}}</a> | <a href="{% url 'accounts:logout' %}">Выход</a></li>
         {% else %}
@@ -37,6 +39,7 @@
     {% block content %}
 
     {% endblock %}
+
 
 
 </body>

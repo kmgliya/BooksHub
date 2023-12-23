@@ -1,17 +1,12 @@
-<!DOCTYPE html>
+{% extends 'header_and_footer/header.html' %}
 {% load static %}
 
-<html lang="en">
-<head>
-    <title>Sign up test(change after test)</title>
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <!--Stylesheet-->
+{% block additional_css %}
     <link rel="stylesheet" href="{% static 'registration/login.css' %}">
-</head>
-<body>
+{% endblock %}
+
+
+{% block content %}
     <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
@@ -41,5 +36,4 @@
           <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
         </div>
     </form>
-</body>
-</html>
+{% endblock %}  }

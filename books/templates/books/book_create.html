@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Creating book</title>
-</head>
-<body>
+{% extends 'header_and_footer/header.html' %}
+{% load static %}
+
+{% block additional_css %}
+{#    <link rel="stylesheet" href="{% static 'registration/login.css' %}">#}
+{% endblock %}
+
+{% block content %}
+
     <h2>Book Creating</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -20,5 +22,4 @@
         <button class="btn btn-success" type="submit" href="home">Добавить</button>
 
     </form>
-</body>
-</html>
+{% endblock %}

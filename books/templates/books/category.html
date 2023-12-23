@@ -38,10 +38,9 @@
           <span style="color: #e5e5e5">{{ book_genre }}</span>  {% if not forloop.last %} {% endif %}
     {% endfor %}
     </div>
-    <button class="card__button">Read more</button>
+    <a class="card__button" href="{% url 'book_detail' book.id %}">Read more</a>
   </div>
 </article>
         {% endfor %}
     </div>
 {% endblock %}
-

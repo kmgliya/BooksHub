@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "books",
     "accounts",
     "axes",
+    "comments",
 
 ]
 
