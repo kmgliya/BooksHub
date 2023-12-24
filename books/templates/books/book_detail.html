@@ -61,45 +61,129 @@
 </div>
 </div>
 
+{#    template of comments #}
 {% if comments %}
-<ul class="comments">
-{% for comment in comments %}
-    <li class="comment">
-    <p class="name_date">Оставил(а) {{ comment.user.username }} в {{ comment.created_at }}</p>
-    <p>{{ comment.content }}</p>
-    <ul>
-    {% for reply in comment.replies.all %}
-        <li class="comment">
-            <p class="name_date">Ответил(а) <strong>{{ reply.user.username }}</strong> в <bold>{{ reply.created_at }}</bold></p>
-            <p>{{ reply.content }}</p>
-        </li>
-    {% endfor %}
+    <ul class="comments">
+        {% for comment in comments %}
+            <li class="comment">
+                {% if comment.user == user %}
+                    <p>
+                        <a href="#" class="edit_button" data-comment-id="{{ comment.id }}">редактировать</a> | <a href="{% url 'delete_comment' comment.id %}" class="delete_button">Удалить</a>
+                    </p>
+                {% endif %}
+                <p class="name_date">Оставил(а) {{ comment.user.username }} в {{ comment.created_at }}</p>
+                <div class="comment-content" id="comment_content_{{ comment.id }}">
+                    {% if comment.is_spoiler and comment.user != user %}
+                        <button class="spoiler_button">спойлер</button>
+                        <p class="spoiler-content" style="display: none;">{{ comment.content }}</p>
+                    {% else %}
+                        <p id="comment_text_{{ comment.id }}">{{ comment.content }}</p>
+                    {% endif %}
+                </div>
+                <div class="edit-form" id="edit_form_{{ comment.id }}" style="display: none;">
+                    <!-- Ваша форма для редактирования, используйте соответствующие поля формы -->
+                    <form method="post" action="{% url 'edit_comment' comment.id %}">
+                        {% csrf_token %}
+                        <textarea name="content">{{ comment.content }}</textarea>
+                        <input type="submit" value="Сохранить">
+                    </form>
+                </div>
+                <ul>
+                    {% for reply in comment.replies.all %}
+                        <li class="comment">
+                            {% if reply.user == user %}
+                                <p>
+                                    <a href="#" class="edit_button" data-comment-id="{{ reply.id }}">редактировать</a> | <a href="{% url 'delete_comment' reply.id %}" class="delete_button">Удалить</a>
+                                </p>
+                            {% endif %}
+                            <p class="name_date">Ответил(а) <strong>{{ reply.user.username }}</strong> в <bold>{{ reply.created_at }}</bold></p>
+                            <div class="comment-content" id="comment_content_{{ reply.id }}">
+                                {% if reply.is_spoiler and reply.user != user %}
+                                    <button class="spoiler_button">спойлер</button>
+                                    <p class="spoiler-content" style="display: none;">{{ reply.content }}</p>
+                                {% else %}
+                                    <p id="comment_text_{{ reply.id }}">{{ reply.content }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="edit-form" id="edit_form_{{ reply.id }}" style="display: none;">
+                                <!-- Ваша форма для редактирования, используйте соответствующие поля формы -->
+                                <form method="post" action="{% url 'edit_comment' reply.id %}">
+                                    {% csrf_token %}
+                                    <textarea name="content">{{ reply.content }}</textarea>
+                                    <input type="submit" value="Сохранить">
+                                </form>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a href="#invisibleForm{{comment.id}}" class="show-reply-form" data-comment-id="{{ comment.id }}">Ответить</a>
+                {# ответить на комментарий #}
+                <form method="post" id="invisibleForm{{comment.id}}" class="reply-form" action="{% url 'reply_comment' parent_id=comment.id book_id=book.id %}">
+                    {% csrf_token %}
+                    {{ comment_form.content }}
+                    <label for="is_spoiler-field">спойлер?:</label>
+                    <input type="checkbox" name="is_spoiler" id="is_spoiler-field">
+                    <input type="submit" value="Отправить">
+                </form>
+            </li>
+        {% endfor %}
     </ul>
-    <a href="#invisibleForm{{comment.id}}" class="show-reply-form" data-comment-id="{{ comment.id }}">Reply</a>
 
-    <form id="invisibleForm{{comment.id}}" class="reply-form" action="{% url 'reply_comment' parent_id=comment.id book_id=book.id %}">
-    {% csrf_token %}
-    {{ comment_form.content }}
-    {{ comment_form.is_spoiler }}
-    <input type="submit" value="Submit">
-</form>
-    </li>
+<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var spoilerButtons = document.querySelectorAll('.spoiler_button');
+                    spoilerButtons.forEach(function(button) {
+                        button.addEventListener('click', function() {
+                            var contentElement = button.nextElementSibling;
+                            contentElement.style.display = 'block';
+                            button.style.display = 'none';
+                        });
+                    });
+                });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var editButtons = document.querySelectorAll('.edit_button');
+                    editButtons.forEach(function(button) {
+                        button.addEventListener('click', function() {
+                            var commentId = button.getAttribute('data-comment-id');
+                            var contentElement = document.getElementById('comment_text_' + commentId);
+                            var editForm = document.getElementById('edit_form_' + commentId);
 
-{% endfor %}
-</ul>
+                            // Переключение отображения содержимого комментария и формы редактирования
+                            contentElement.style.display = (contentElement.style.display === 'none') ? 'block' : 'none';
+                            editForm.style.display = (editForm.style.display === 'none') ? 'block' : 'none';
+                        });
+                    });
+                });
+            </script>
 {% endif %}
 
-<!-- Form for adding new comments -->
+
+
+
+
+{#    usual comment#}
 <form method="post" action="{% url 'add_comment' book_id=book.id %}">
-  {% csrf_token %}
-  {{ comment_form.content }}
-  {{ comment_form.is_spoiler }}
-  <input type="submit" value="Add coomment">
+    {% csrf_token %}
+    {{ comment_form.content }}
+    <label for="is_spoiler-field">spoiler?:</label>
+    <input type="checkbox" name="is_spoiler" id="is_spoiler-field">
+    <input type="submit" value="Submit">
 </form>
 
 
 
-    <!-- Add this script to the end of your book_detail.html -->
+
+
+
+
+
+
+
+
+
+{#for reply of the comment#}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var showButtons = document.querySelectorAll('.show-reply-form');
