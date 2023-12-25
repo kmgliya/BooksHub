@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 
@@ -9,6 +11,7 @@ class Comment(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
     content = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_spoiler = models.BooleanField(default=False)
     parent_comment = models.ForeignKey('self', null=True, blank=True, related_name='replies', on_delete=models.CASCADE)
@@ -16,3 +19,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.book.title} - {self.created_at}"
+
+    def save(self, *args, **kwargs):
+        self.updated_at = datetime.now()
+        super(Comment, self).save(*args, **kwargs)

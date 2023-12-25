@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-c12hqo!woe*$4xylw9&#q5ku%b_9(q(m=x#t27#j#x=xi=9@)y'
+SECRET_KEY = 'django-insecure-c12hqo!woe*$4xylw9&#q5ku%b_9(q(m=x#t27#j#x=xi=9@)y/'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "accounts",
     "axes",
     "comments",
+    "forum",
 
 ]
 
@@ -157,18 +158,12 @@ LOGIN_URL = 'accounts:login'
 
 # блокировка пользователя
 AXES_FAILURE_LIMIT = 5  # Количество неудачных попыток
-AXES_COOLOFF_TIME = 1 / 60  # Время блокировки в часах
-AXES_LOCKOUT_TEMPLATE = 'registration/lockout.html'  # Путь к вашему шаблону блокировки
+AXES_COOLOFF_TIME = 1 / 60  # Время блокировки в часах(1/60 = 1 min)
+AXES_LOCKOUT_TEMPLATE = 'registration/lockout.html'  # Путь к шаблону блокировки
 AXES_FAILURE_LIMIT: 3
 AXES_RESET_ON_SUCCESS = True
 
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
 
 # отправка сообщения подтверждения
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, get_object_or_404, redirect
 
 from books.views import book_detail
@@ -48,13 +50,20 @@ def delete_comment(request, comment_id):
     comment.delete()
     return redirect(book_detail, book_id=book_id)
 
+
 def edit_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
+    book = comment.book
+
     if request.method == 'POST':
         comment_form = CommentForm(request.POST, instance=comment)
+
         if comment_form.is_valid():
-            book_id = comment.book.id
             comment_form.save()
 
-    return redirect(book_detail, book_id=book_id)
+
+    return redirect('book_detail', book_id=book.id)
+
+
+
 

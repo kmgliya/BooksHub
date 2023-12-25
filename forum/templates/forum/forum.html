@@ -1,0 +1,20 @@
+{% extends 'header_and_footer/header.html' %}
+{% load static %}
+
+{% block additional_css %}
+	<link rel="stylesheet" href="{% static 'books/css/category.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <a href="add_discussion">Start a new discussion</a>
+    {% for discussion in discussions %}
+        <div class="discussion">
+            {{ discussion.description }}
+            {{ discussion.user }}
+
+            {{ discussion.created_at }}
+            {{ discussion.updated_at }}
+        </div>
+    {% endfor %}
+{% endblock %}

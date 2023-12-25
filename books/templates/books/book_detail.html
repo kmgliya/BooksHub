@@ -15,13 +15,17 @@
 <div class="book-content">
   <h2 class="book-title">{{book.title}}</h2>
   <div class="data_of_book">
+>
     <p class="book_author">{{book.author}}</p>
     <a href="#target-content" id="button">{{book.rating}}</a>
 
+
     <form method="post" action="{% url 'toggle_marked' book.id %}">
       {% csrf_token %}
-      <button type="submit">{% if user in marked_book %}удалить из избранных{% else %}добавить в избранные{% endif %} %}</button>
+      <button type="submit">{% if user in marked_book %}удалить из избранных{% else %}добавить в избранные{% endif %}</button>
     </form>
+<a href="{% url 'download_book' book.id %}" class="btn btn-primary">Загрузить книгу</a>
+
 
   </div>
 
@@ -68,10 +72,10 @@
             <li class="comment">
                 {% if comment.user == user %}
                     <p>
-                        <a href="#" class="edit_button" data-comment-id="{{ comment.id }}">редактировать</a> | <a href="{% url 'delete_comment' comment.id %}" class="delete_button">Удалить</a>
+                        <a href="#" class="edit_button" data-comment-id="{{ comment.id }}">edit</a> | <a href="{% url 'delete_comment' comment.id %}" class="delete_button">delete</a>
                     </p>
                 {% endif %}
-                <p class="name_date">Оставил(а) {{ comment.user.username }} в {{ comment.created_at }}</p>
+                <p class="name_date">Оставил(а) {{ comment.user.username }} в {{ comment.created_at }}{% if comment.created_at < comment.updated_at %} | edited at {{ comment.updated_at }}{% endif %}</p>
                 <div class="comment-content" id="comment_content_{{ comment.id }}">
                     {% if comment.is_spoiler and comment.user != user %}
                         <button class="spoiler_button">спойлер</button>
@@ -81,7 +85,7 @@
                     {% endif %}
                 </div>
                 <div class="edit-form" id="edit_form_{{ comment.id }}" style="display: none;">
-                    <!-- Ваша форма для редактирования, используйте соответствующие поля формы -->
+{#                    edt form#}
                     <form method="post" action="{% url 'edit_comment' comment.id %}">
                         {% csrf_token %}
                         <textarea name="content">{{ comment.content }}</textarea>
@@ -93,10 +97,11 @@
                         <li class="comment">
                             {% if reply.user == user %}
                                 <p>
-                                    <a href="#" class="edit_button" data-comment-id="{{ reply.id }}">редактировать</a> | <a href="{% url 'delete_comment' reply.id %}" class="delete_button">Удалить</a>
+                                    <a href="#" class="edit_button" data-comment-id="{{ reply.id }}">edit</a> | <a href="{% url 'delete_comment' reply.id %}" class="delete_button">delete</a>
                                 </p>
                             {% endif %}
-                            <p class="name_date">Ответил(а) <strong>{{ reply.user.username }}</strong> в <bold>{{ reply.created_at }}</bold></p>
+
+                            <p class="name_date">Ответил(а) <strong>{{ reply.user.username }}</strong> в <bold>{{ reply.created_at }}</bold>{% if reply.created_at < reply.updated_at %} | edited at {{ reply.updated_at }}{% endif %}</p>
                             <div class="comment-content" id="comment_content_{{ reply.id }}">
                                 {% if reply.is_spoiler and reply.user != user %}
                                     <button class="spoiler_button">спойлер</button>
@@ -106,7 +111,7 @@
                                 {% endif %}
                             </div>
                             <div class="edit-form" id="edit_form_{{ reply.id }}" style="display: none;">
-                                <!-- Ваша форма для редактирования, используйте соответствующие поля формы -->
+{#                                edit form#}
                                 <form method="post" action="{% url 'edit_comment' reply.id %}">
                                     {% csrf_token %}
                                     <textarea name="content">{{ reply.content }}</textarea>
@@ -117,7 +122,7 @@
                     {% endfor %}
                 </ul>
                 <a href="#invisibleForm{{comment.id}}" class="show-reply-form" data-comment-id="{{ comment.id }}">Ответить</a>
-                {# ответить на комментарий #}
+{#            reply to the comment#}
                 <form method="post" id="invisibleForm{{comment.id}}" class="reply-form" action="{% url 'reply_comment' parent_id=comment.id book_id=book.id %}">
                     {% csrf_token %}
                     {{ comment_form.content }}

@@ -1,13 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.http import FileResponse, HttpResponse
+from .models import Book
 
-from .models import *
-from django.views.generic import DetailView, UpdateView, CreateView
+
+from django.views.generic import CreateView
 from .forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
 from django.core.paginator import Paginator
-from django.http import JsonResponse
 
 from comments.models import Comment
 from comments.forms import CommentForm
@@ -56,11 +56,8 @@ class AddBook(LoginRequiredMixin, CreateView):
 
 
 def book_list_view(request):
-    if request.method == "GET":
-        books_rating = Book.objects.all().order_by("rating")[0:10:-1]
-        return render(request, template_name='books/books_slide.html', context={
-            'books_rating': books_rating,
-        })
+    books_rating = Book.objects.all().order_by("rating")[0:10:-1]
+    return render(request, template_name='books/books_slide.html', context={'books_rating': books_rating})
 
 
 
@@ -68,10 +65,30 @@ def book_list_view(request):
 def book_detail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     comments = Comment.objects.filter(book=book, parent_comment=None)
+    file_path = book.file.path
+    file_path_parts = file_path.split("/")
+
+    file_name = file_path_parts[-1]
+
     comment_form = CommentForm()
 
-    return render(request, template_name='books/book_detail.html', context={'book': book, "marked_book": book.marked_book.all(), 'comments': comments, 'comment_form': comment_form})
+    return render(request, template_name='books/book_detail.html', context={'book': book,
+    "marked_book": book.marked_book.all(), 'comments': comments, 'comment_form': comment_form, 'file_path': file_path, 'file_name': file_name})
 
+
+
+
+
+@login_required
+def download_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    # Предполагается, что ваше поле файла названо 'file' в модели Book
+    file_path = book.file.path
+    with open(file_path, 'rb') as file:
+        response = HttpResponse(file.read(), content_type='application/fb2')
+        response['Content-Disposition'] = f'attachment; filename="{book.file.name}"'
+        return response
 
 
 @login_required

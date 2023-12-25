@@ -13,6 +13,7 @@ urlpatterns = [
     path('toggle_marked/<int:book_id>/', favorites_button, name='toggle_marked'),
     path('favorites/', favorites, name='favorites'),
     path('About_us/', about, name='About_us'),
-    path('filtration/', filtration, name='filtration')
+    path('filtration/', filtration, name='filtration'),
+    path('download/book/<int:book_id>/', download_book, name='download_book'),
 
 ]
