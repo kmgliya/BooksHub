@@ -6,8 +6,6 @@ display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-content: flex-start;
-  width: 1920px;
-  height: 960px;
 }
 .logo{
 width: 50px;
