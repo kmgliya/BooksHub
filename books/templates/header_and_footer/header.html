@@ -30,7 +30,7 @@
         <li class="nav-li"><a href="{% url 'favorites' %}">favorites</a></li>
         <li class="nav-li"><a href="{% url 'create' %}">add book</a></li>
         {% if  user.is_authenticated %}
-        <li class="nav-li"><a href="{% url 'accounts:profile' %}">{{user.username}}</a> | <a href="{% url 'accounts:logout' %}">Выход</a></li>
+        <li class="nav-li"><a href="{% url 'accounts:profile' user.username %}">{{user.username}}</a> | <a href="{% url 'accounts:logout' %}">Выход</a></li>
         {% else %}
         <li class="nav-li"><a href="{% url 'accounts:register' %}">Регистрация</a> | <a href="{% url 'accounts:login' %}">Авторизация</a></li>
         {% endif %}

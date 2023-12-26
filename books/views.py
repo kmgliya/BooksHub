@@ -1,17 +1,16 @@
 from django.http import FileResponse, HttpResponse
-from .models import Book
-
 
 from django.views.generic import CreateView
 from .forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
 
 from django.core.paginator import Paginator
 
 from comments.models import Comment
 from comments.forms import CommentForm
 
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
 def hello(request):
     book = Book.objects.all()
     return render(request, "books/index.html", {"book":book})
@@ -30,31 +29,6 @@ class AddBook(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-# def create(request):
-#     error = ''
-#     if request.method == "POST":
-#
-#         form = BookForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect("home")
-#         else:
-#             error = 'Форма неправильно заполненна'
-#     else:
-#         form = BookForm()
-#
-#     data = {
-#         "form": form,
-#         'error': error
-#     }
-#     return render(request, "books/book_create.html", data)
-
-
-# class BooksUpdateView(UpdateView):
-#     model = Book
-#     template_name = 'book_create'
-
-
 def book_list_view(request):
     books_rating = Book.objects.all().order_by("rating")[0:10:-1]
     return render(request, template_name='books/books_slide.html', context={'books_rating': books_rating})
@@ -66,14 +40,10 @@ def book_detail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     comments = Comment.objects.filter(book=book, parent_comment=None)
     file_path = book.file.path
-    file_path_parts = file_path.split("/")
-
-    file_name = file_path_parts[-1]
-
     comment_form = CommentForm()
 
     return render(request, template_name='books/book_detail.html', context={'book': book,
-    "marked_book": book.marked_book.all(), 'comments': comments, 'comment_form': comment_form, 'file_path': file_path, 'file_name': file_name})
+    "marked_book": book.marked_book.all(), 'comments': comments, 'comment_form': comment_form, 'file_path': file_path})
 
 
 
@@ -83,7 +53,6 @@ def book_detail(request, book_id):
 def download_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
 
-    # Предполагается, что ваше поле файла названо 'file' в модели Book
     file_path = book.file.path
     with open(file_path, 'rb') as file:
         response = HttpResponse(file.read(), content_type='application/fb2')
@@ -110,12 +79,8 @@ def update_rating(request, book_id, rating_value):
 
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
+
+
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 

@@ -1,0 +1,25 @@
+
+
+.title {
+    color: #2c3e50;
+    align-self: center;
+}
+
+.description {
+    color: #2c3e50;
+    align-self: center;
+}
+
+
+.join_created {
+    display: flex;
+    justify-content: space-between;
+}
+
+.add_discussion {
+    position: absolute;
+    bottom: 70px;
+    right: 70px;
+    text-decoration: none;
+
+}

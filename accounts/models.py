@@ -1,9 +1,13 @@
+from audioop import reverse
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 class JustUser(AbstractUser):
-    ...
+    avatar = models.ImageField(upload_to='static/users/avatars/', blank=True, null=True, default="https://lemmy.world/pictrs/image/f9b045ca-ca15-43b4-aeed-1188183d7087.png")
+    username = models.CharField(max_length=17, unique=True)
+    
     def __str__(self):
         return self.username
 

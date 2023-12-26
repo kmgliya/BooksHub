@@ -39,66 +39,28 @@
 			</form>
 			<section id="sidebar-contents">
 				<div id="chats-list">
-					<div class="chat-tile">
-						<img src="https://picsum.photos/id/103/50" alt="" class="chat-tile-avatar">
-						<div class="chat-tile-details">
-							<div class="chat-tile-title">
-								<span>Friends 🤗</span>
-								<span>Tuesday</span>
-							</div>
-							<div class="chat-tile-subtitle">
-								<span>You: hey there! how are you?</span>
-								<span class="chat-tile-menu">
-									<img src="icons/pin.svg" alt="" class="pin">
-								</span>
-							</div>
-						</div>
-					</div>
-					<div class="chat-tile">
-						<img src="https://picsum.photos/id/104/50" alt="" class="chat-tile-avatar">
-						<div class="chat-tile-details">
-							<div class="chat-tile-title">
-								<span>Family</span>
-								<span>10:34 Pm</span>
-							</div>
-							<div class="chat-tile-subtitle">
-								<span>Papa: You gotta be kidding me</span>
-								<span class="chat-tile-menu">
-									<img src="icons/pin.svg" alt="" class="pin">
-								</span>
-							</div>
-						</div>
-					</div>
-					<div class="chat-tile">
-						<img src="https://picsum.photos/id/106/50" alt="" class="chat-tile-avatar">
-						<div class="chat-tile-details">
-							<div class="chat-tile-title">
-								<span>Amor 💖</span>
-								<span>Saturday</span>
-							</div>
-							<div class="chat-tile-subtitle">
-								<span>You do not understand what I'm </span>
-								<span class="chat-tile-menu">
-									<img src="icons/pin.svg" alt="" class="pin">
-								</span>
-							</div>
-						</div>
-					</div>
-					<div class="chat-tile">
-						<img src="https://picsum.photos/id/110/50" alt="" class="chat-tile-avatar">
-						<div class="chat-tile-details">
-							<div class="chat-tile-title">
-								<span>John</span>
-								<span>Saturday</span>
-							</div>
-							<div class="chat-tile-subtitle">
-								<span>Reply in group fast</span>
-								<span class="chat-tile-menu">
-									<img src="icons/pin.svg" alt="" class="pin">
-								</span>
-							</div>
-						</div>
-					</div>
+                    {% for disc in user.discussions.all %}
+                       <a href="{% url 'discussion_chat' disc.title %} " style="text-decoration: none">
+                        <div class="chat-tile">
+                            {% if disc.book %}
+                                <img src="{{ disc.book.image.url }}" alt="" class="chat-tile-avatar">
+                            {% endif %}
+                            <div class="chat-tile-details">
+                                <div class="chat-tile-title">
+                                    <span>{{ disc.title }}</span>
+                                    <span>{{ disc.messages.all.last.created_at }}</span>
+                                </div>
+                                <div class="chat-tile-subtitle">
+                                    <span>{{ disc.messages.all.last.content }}</span>
+                                    <span class="chat-tile-menu">
+                                        <img src="icons/pin.svg" alt="" class="pin">
+                                    </span>
+                                </div>
+                            </div>
+					    </div>
+                        </a>
+                    {% endfor %}
+
 
 				</div>
 			</section>
@@ -108,10 +70,10 @@
 		<!-- Chat window -->
 		<section id="chat-window">
 			<header id="chat-window-header">
-				<img src="https://picsum.photos/id/103/50" alt="" class="avatar" id="profile-image">
+				<img src="{{ discussion.book.image.url }}" alt="" class="avatar" id="profile-image">
 				<div id="active-chat-details">
-					<h3>Friends 🤗</h3>
-					<div class="info">You and 69 others</div>
+					<h3>{{ discussion.title }}</h3>
+					<div class="info">You and {{ discussion.len_user }} others</div>
 				</div>
 				<img src="icons/search.svg" alt="" class="icon">
 				<div class="dropdown">
@@ -130,75 +92,69 @@
 				</div>
 			</header>
 			<div id="chat-window-contents">
-
+                {% if first_message %}
 				<div class="datestamp-container">
 					<span class="datestamp">
 						03/05/2023
 					</span>
 				</div>
 				<!-- Message group 1 -->
-				<div class="chat-message-group">
-					<img src="https://picsum.photos/50" alt="" class="chat-message-avatar">
+				<div class="chat-message-group {% if first_message.user == user %}my_message{% else %}others_message{% endif %}">
+                    {% if first_message.user != user %}
+					<a href="{% url "accounts:profile" first_message.user.username %}"><img src="{{ first_message.user.avatar }}" alt="" class="chat-message-avatar"></a>
+                    {% endif %}
 					<div class="chat-messages">
-						<div class="chat-message-container">
-							<div class="chat-message chat-message-first">
-								<div class="chat-message-sender">Kshitiz</div>
-								Hey there, how are you doing?
-								<span class="chat-message-time">7:22 am</span>
-							</div>
-							<div class="emoji-toolbar">
-								<img src="icons/emoji.svg" alt="" class="icon reaction-button">
-								<div class="reaction-emoji-selector">
-									<a href="#" class="icon">👍🏻</a>
-									<a href="" class="icon">💖</a>
-									<a href="" class="icon">😂</a>
-									<a href="" class="icon"></a>
-									<a href="" class="icon"></a>
-									<a href="" class="icon"></a>
-								</div>
+						<div class="chat-message-container {% if first_message.user == user %}my_message{% else %}others_message{% endif %}">
+							<div class="chat-message chat-message-first {% if first_message.user == user %}my_message{% else %}others_message{% endif %}">
+                                {% if first_message.user == user %}<div class="delete_edit"><a class="del_edit">edit</a> | <a class="del_edit">delete</a></div>{% endif %}
+								<div class="chat-message-sender">{{ first_message.user.username }}</div>
+								<p>{{ first_message.content }}</p>
+								<span class="chat-message-time">{{ first_message.created_at_hour }}</span>
 							</div>
 						</div>
-						<div class="chat-message">
-							Are you up to some fun this weekend?
-							<span class="chat-message-time">7:22 am</span>
+                        {% for message in messages %}
+                        {% if message.get_previous_message.user == message.user %}
+						<div class="chat-message {% if message.user == user %}my_message{% else %}others_message{% endif %}">
+                                {% if message.user == user %}<div class="delete_edit"><a>edit</a> | <a>delete</a></div>{% endif %}
+								<p>{{ message.content }}</p>
+							<span class="chat-message-time">{{ message.created_at_hour }}</span>
 						</div>
-						<div class="chat-message">
-							I'm thinking of going to the beach
-							<span class="chat-message-time">7:23 am</span>
-						</div>
+                        {% else %}
 					</div>
-				</div>
+                            {% if message.get_previous_message.user == user %}
+                                <a href="{% url "accounts:profile" first_message.user.username %}"><img src="{{ first_message.user.avatar }}" alt="" class="chat-message-avatar"></a>
+                            {% endif %}
+                </div>
+
 				<!-- Message group 2 -->
-				<div class="chat-message-group">
-					<img src="https://picsum.photos/id/102/50" alt="" class="chat-message-avatar">
+				<div class="chat-message-group {% if message.user == user %}my_message{% else %}others_message{% endif %}">
+
+
+                    {% if message.get_previous_message.user == user %}
+                    <a href="{% url "accounts:profile" message.user.username %}"><img src="{{ message.user.avatar }}" alt="" class="chat-message-avatar"></a>
+                    {% endif %}
 					<div class="chat-messages">
-						<div class="chat-message-container">
-							<div class="chat-message chat-message-first">
-								<div class="chat-message-sender">John</div>
-								Sure man
-								<span class="chat-message-time">7:30 am</span>
-							</div>
-							<div class="emoji-toolbar">
-								<img src="icons/emoji.svg" alt="" class="icon reaction-button">
-								<div class="reaction-emoji-selector">
-									<a href="#" class="icon">👍🏻</a>
-									<a href="" class="icon">💖</a>
-									<a href="" class="icon">😂</a>
-									<a href="" class="icon"></a>
-									<a href="" class="icon"></a>
-									<a href="" class="icon"></a>
-								</div>
+						<div class="chat-message-container {% if message.user == user %}my_message{% else %}others_message{% endif %}">
+							<div class="chat-message chat-message-first {% if message.user == user %}my_message{% else %}others_message{% endif %}">
+                                {% if message.user == user %}<div class="delete_edit"><a>edit</a> | <a>delete</a></div>{% endif %}
+								<div class="chat-message-sender">{{ message.user.username }}</div>
+								<p>{{ message.content }}</p>
+								<span class="chat-message-time">{{ message.created_at_hour }}</span>
 							</div>
 						</div>
-						<div class="chat-message">
-							When are you free? Let's meet at the cafe first.
-							<span class="chat-message-time">7:30 am</span>
-						</div>
+
+
+                    {% endif %}
+
+                    {% endfor %}
 
 					</div>
+                    {% if message.user == user %}
+                        <a href="{% url "accounts:profile" message.user.username %}"><img src="{{ message.user.avatar }}" alt="" class="chat-message-avatar"></a>
+                    {% endif %}
 				</div>
 
-
+                {% endif %}
 			</div>
 			<footer id="chat-window-footer">
 				<img src="icons/emoji.svg" alt="" class="icon">
@@ -214,8 +170,6 @@
 
 	</main>
 
-	<!-- Import Scripts -->
-	<script src="scripts/scroll-to-top.js"></script>
-	<script src="scripts/check-connectivity.js"></script>
+
 {% endblock %}
 

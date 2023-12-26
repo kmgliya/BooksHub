@@ -152,7 +152,7 @@ AUTH_USER_MODEL = 'accounts.JustUser'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_REDIRECT_URL = "accounts:profile"
+LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "accounts:login"
 LOGIN_URL = 'accounts:login'
 

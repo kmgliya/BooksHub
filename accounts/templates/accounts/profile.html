@@ -13,10 +13,10 @@
 
     </div>
     <div class="title-total">
-      <div class="title">{{ user.occupation }}</div>
-      <h2>{{ user.username }}</h2>
+      <div class="title">{{ just_user.occupation }}</div>
+      <h2>{{ just_user.username }}</h2>
 
-  <div class="desc">{{ user.about_yourself }}</div>
+  <div class="desc">{{ just_user.about_yourself }}</div>
   <div class="actions">
     <button onclick="location.href='{% url 'accounts:logout' %}?next=/accounts/profile'">Logout</button>
     <button onclick="location.href='{% url 'accounts:password_change' %}'">Изменить Пароль</button>

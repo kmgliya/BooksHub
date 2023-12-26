@@ -6,11 +6,7 @@
   margin-bottom: 10px;
 }
 
-.emoji-toolbar {
-  /* visibility: none; */
-  /* opacity: 0; */
-  position: relative;
-}
+
 
 .reaction-emoji-selector {
   position: absolute;
@@ -31,7 +27,6 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
 }
 
 .chat-message-container {
@@ -59,10 +54,8 @@
 
 .chat-message-sender {
   font-weight: 600;
-}
+    color: red;
 
-.chat-message-sender:nth-of-type(2n + 1) {
-  color: red;
 }
 
 .chat-message-time {
@@ -194,6 +187,8 @@
   z-index: 1;
   overflow: auto;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* #chat-window-contents::before {
@@ -421,7 +416,6 @@ a {
   flex-direction: column;
 }
 
-
 .connectivity-notification-title {
   color: var(--text-primary-strong);
   font-size: 16px;
@@ -500,4 +494,38 @@ main {
 
 .dropdown:hover .dropdown-content {
   display: flex;
+}
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.others_message {
+  align-self: start;
+  align-items: start;
+}
+
+.my_message {
+  align-self: end;
+  align-items: end;
+}
+
+
+a {
+  text-decoration: none;
+}
+
+.chat-message {
+  min-width: 200px;
+}
+
+.chat-message {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-message-group {
+  align-items: start;
+
 }
